@@ -1,0 +1,23 @@
+input_string(u1 ptr cp)         	Input into a character array
+input_signed(ix ptr sp)         	Input into a signed integer
+input_unsigned(ux ptr up)       	Input into an unsigned integer
+input_float(px ptr pp)          	Input into a float or double
+
+output_string(ux ptr cp)        	Output into a character array
+output_signed(ix ptr sp)        	Output into a signed integer
+output_unsigned(ux ptr sp)      	Output into an unsigned integer
+output_float(px ptr pp)         	Output into a float
+output_double(px ptr pp)        	Output into a double
+
+file_read_request()      	Request to get pointer of file with read access          	Open file for reading
+file_write_request()     	Request to get pointer of file with write access         	Write to a new file, or overwrite existing file
+file_read_write_request()	Request to get pointer of file with read and write access	Open file for reading, as well as allow file to be overwritten
+
+file_read_location
+file_write_location
+file_append_location
+
+NOTE:
+If file system entry has required perms for executables, automatically return file pointer. Otherwise:
+- If logged in as superuser, show prompt for permission to open file with such permissions. If superuser permits, return file pointer as usual.
+- If not logged in as superuser, functions MUST return null.

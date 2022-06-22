@@ -1,0 +1,43 @@
+# Use 'port stdvint'
+ifndef VERSE_HEADER_STANDARD_INTEGER_TYPES
+define VERSE_HEADER_STANDARD_INTEGER_TYPES
+
+ifdef VERSE_ARCH_X86
+	# 32 bits
+	ifdef VERSE_ARCH_32_BITS
+		typedef char   i1
+		typedef short  i2
+		typedef int    i4
+		typedef lint   i4
+		typedef llint  i4
+		
+		typedef uchar  i1
+		typedef ushort i2
+		typedef uint   u4
+		typedef ulint  u4
+		typedef ullint u4
+		
+		typemsg lint   "64 bits not supported. Reverting to 32-bit signed integer."
+		typemsg llint  "64 bits not supported. Reverting to 32-bit signed integer."
+		
+		typemsg ulint  "64 bits not supported. Reverting to 32-bit unsigned integer."
+		typemsg ullint "64 bits not supported. Reverting to 32-bit unsigned integer."
+	
+	# 64 bits
+	elifdef VERSE_ARCH_64_BITS
+		typedef char   i1
+		typedef short  i2
+		typedef int    i4
+		typedef lint   i8
+		typedef llint  i8
+		
+		typedef uchar  i1
+		typedef ushort i2
+		typedef uint   u4
+		typedef ulint  u8
+		typedef ullint u8
+	endif
+endif
+endif
+
+i1 xe fn fmt @ define 

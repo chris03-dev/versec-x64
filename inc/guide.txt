@@ -1,0 +1,16 @@
+				Requires
+Create Instance
+Create Physical Device		Instance
+Create Surface			Instance
+Create Swapchain		Device
+Create Image			Device, Swapchain
+Get Swapchain Images		Device, Swapchain
+Create Semaphore		Device, Allocation Callback (optional)
+Acquire Next Image		Device, Swapchain, Semaphore
+Create Image View		Device
+Create Queue			Device
+Create Render Pass		Device
+Create Framebuffer		Device
+Create Descriptor Set Layout	Device
+Create Pipeline Layout		Device
+Create Shader Module		Device

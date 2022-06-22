@@ -1,0 +1,75 @@
+arch x64
+format exf
+
+segment data
+segment code
+
+syscall
+0 - fint
+1 - fout
+2 - kint
+3 - kout
+4 - fopen
+5 - fread
+6 - fsetpos
+7 - fclose
+8 - system
+
+obj obj2d
+endj
+
+obj obj3d
+
+	v4~1 vertices
+	u8~1 texture
+	list 
+	
+	v3 centerofmass
+	f4 weight
+	
+	i4 grip
+	i4 stick
+	i4 bounce
+
+	u8 onCollide
+	u8 onRelease
+	u8 onCreate
+	u8 onDestroy
+
+endj
+
+obj physics_init
+	
+endj
+
+
+nt main
+
+	obj3d object1 = {0, 0, {0, 0, 0}, 0, 0, 0}
+	obj3d object2 = {0, 0, {0, 0, 0}}
+	
+	file ft1 = file_access_local("object1.png")
+	file ft2 = file_access_local("object2.png")
+	
+	if (ft1 != 0) && (ft2 != 0)
+		string_output("Error: Textures cannot be loaded. Exiting now...\n")
+		exit 1
+	fi
+	
+	object_3d_apply_texture(file_convert_texture(ft1))
+	object_3d_apply_texture(file_convert_texture(ft2))
+	
+	file_access_close(ft1)
+	file_access_close(ft2)
+	
+	physics3d_init(object1)
+	physics3d_init(object2)
+	
+	physics3d_force_apply(object1, 0,  2, 0)
+	physics3d_force_apply(object2, 0, -2, 0)
+	
+	physics3d_update()
+	physics3d_reposition()
+	
+exit 0
+*/

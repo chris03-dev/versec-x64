@@ -1,0 +1,1 @@
+git reset current~1

@@ -1,0 +1,34 @@
+process_id_get			Get Process ID of executable/script
+process_argc_get		Get number of arguments given by executable/script
+process_argv_get		Get list of arguments given by executable/script
+
+NOTE:
+If using invalid PID, the system MUST close the executable immediately.
+
+
+There is a nasty way to handle pointers. 
+
+Given the following:
+
+i4~3 ptrl3
+i4~2 ptrl2
+i4~1 ptrl1
+i4   value
+
+Using this equation:
+
+ptrl3 = ptrl2
+
+L3 ptrl3
+L2 ptrl2
+L1
+VL
+
+Meanwhile, if you use this equation instead:
+
+ptrl3~ = ptrl2
+
+L3 ptrl3
+L2
+L1
+VL

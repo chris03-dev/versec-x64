@@ -1,0 +1,150 @@
+fmt pe32dll
+abi uefi
+load msvc, 'msvcrt.dll'
+
+port msvc i4 printf, ...
+
+
+# Hello World.tr
+#asm include 'rv64.asm'
+u1 5 hello	"Hello\" World\n"
+i1   world	"World", 10
+u1~1 ptr3
+
+u1 10 array \
+11, 12, 13, 14, 15,\
+16, 17, 18, 19, 20
+
+_<
+obj struct hello
+eobj
+
+dcl strlen
+>_
+
+fn strlen
+	u2~2 len
+	u4 float
+	
+	len = 0
+	
+	_<
+	strlen:1#:2:3
+	@strlen:1#:2:3
+	ptr3~
+	ptr3(1)
+	@ptr3(1)
+	>_
+	
+	#strlen:1(1, 2)
+	#strlen:5:2{i4}@(1, 2)
+	ret 0#len~:4:2(2):2(3){u1}:7
+
+nt main
+	#u8cf~2:10
+	i4 x # u4
+	u4 y # u4
+	u1 z # u1
+	p8 float    # Delete duplicate
+	p4 float2
+	u1~3 ptr1
+	u1~2 ptr2
+	u1~1 ptr3
+	i1~1 now
+	
+	float + ptr1
+	ptr1 = @ptr2
+	
+	ptr2 = @ptr3
+	ptr3 = @hello
+	
+	#ptr3 = 1 + ptr3         # This one works (as stack, not as global variable)
+	#ptr3 = ptr3 + 1         # This one also works
+	#ptr3 = hello            # This one also works (as stack)
+	x *= ptr3:1              # This one works now
+	
+	# Fix this
+	ptr1 + 1
+	ptr2~ *= 1
+	x *= 0.5
+	
+	x = 2500#@strlen(1, 2, 3, 4 + 6 * 5 / 5) #2500
+	y = 100
+	z = 5
+	
+	hello:1   = 'a'
+	ptr3:2    = 'b'
+	ptr2~:3   = 'c'
+	ptr1~~:4  = 'd'
+	ptr1~~:4 -= 32
+	
+	#10.0
+	#x = x * 5            # Also fix this
+	#float += x * 5       # Finally, fix this
+	
+	#Fix this
+	float = 1.8 / (float + z + 5)#float
+	float = x + 5       # Fix this, xmm0 is used instead of xmm2
+	
+	#5 + @strlen(1 + 5, 2, 3){i4}
+	#@strlen(1 + 5, 2, 3){i4} >> 5  # Somehow, '5' is not recognized as an integer
+	#@strlen(1 + 5, 2, 3):5~:2 #{i4}       # This one works
+	
+	do x /= y
+		hello:5 += 1
+	wl x >= 50
+	
+	if x < 0
+		exit 0
+	fi
+	
+	if x >= 5
+		asm mov rsi, hello
+		asm mov rdx, 13
+	ls
+		asm mov rsi, world
+		if x > 0
+			asm mov rdx, 5
+		ls
+			asm mov rdx, 3
+		fi
+	fi
+	
+	_<
+	cmp x
+		case 5
+			asm mov rdx, 10
+			end
+		case 0
+			asm mov rdx, 5
+			end
+		nocase
+			asm mov rdx, 3
+			end
+	ecmp
+	>_
+	
+	# Hide this if you want to debug the code
+	#asm mov rsi, hello
+	#asm mov rdx, 13
+	
+	asm mov rax, 1
+	asm mov rdi, 1
+	asm syscall
+	#x % 5
+	
+	# Fix this
+	#float / float2
+	
+	#((ptr3 + 5) / (22 * ptr3:1)):25 - (x * (z + 5) * 7 * z):8
+	#((ptr3 + 5) / (22 * ptr3:1)) - (x * (z + 5) * 7 / z)
+	
+	
+	# Fix this too
+	#((x + 5) / (22 / y))\
+	 - (x * (z + 5) * 7 / z)
+	
+	#x = x * (z + 5) * 7 / z
+	#x * x + y / z
+	
+	exit 0
